@@ -1,0 +1,135 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import { updates } from '../data/updates';
+
+const ITEMS_PER_PAGE = 10;
+const currentPage = Number(Astro.url.searchParams.get('page') || '1');
+const totalPages = Math.ceil(updates.length / ITEMS_PER_PAGE);
+const pageUpdates = updates.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+);
+---
+
+<Layout title="Updates - Nicolaj Schmit">
+    <Navigation />
+    <main>
+        <h1>All Updates</h1>
+        <div class="updates-grid">
+            {pageUpdates.map(update => (
+                <article class="update-card scroll-reveal">
+                    <time>{update.date}</time>
+                    <h3>{update.title}</h3>
+                    <p>{update.content}</p>
+                    {update.link && (
+                        <a href={update.link} target="_blank" rel="noopener noreferrer">
+                            Read more →
+                        </a>
+                    )}
+                </article>
+            ))}
+        </div>
+        
+        <nav class="pagination">
+            {currentPage > 1 && (
+                <a href={`/updates?page=${currentPage - 1}`} class="pagination-button">
+                    ← Previous
+                </a>
+            )}
+            <span class="page-info">Page {currentPage} of {totalPages}</span>
+            {currentPage < totalPages && (
+                <a href={`/updates?page=${currentPage + 1}`} class="pagination-button">
+                    Next →
+                </a>
+            )}
+        </nav>
+    </main>
+</Layout>
+
+<style>
+    main {
+        margin: auto;
+        padding: 2rem;
+        width: 800px;
+        max-width: calc(100% - 2rem);
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: var(--primary-light);
+    }
+    .updates-grid {
+        display: grid;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    .update-card {
+        background: var(--bg-light);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    .update-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .update-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
+    }
+    time {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+    h3 {
+        color: var(--primary-light);
+        margin: 0.5rem 0;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+    .pagination-button {
+        padding: 0.5rem 1rem;
+        background: var(--primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+    .pagination-button:hover {
+        background: var(--primary-light);
+        transform: translateY(-2px);
+    }
+    .page-info {
+        color: var(--text-muted);
+    }
+</style>
+
+<script>
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-reveal').forEach(element => {
+        observer.observe(element);
+    });
+</script>

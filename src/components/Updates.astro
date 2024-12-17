@@ -1,31 +1,13 @@
 ---
-const updates = [
-    
-    {
-        date: "2024-12-17",
-        title: "Code: The GitHub static site is up",
-        content: "The base template was created in 10 minutes using https://bolt.new/ including subsites, layout and GitHub deployment pipelines. Adding relevant content and doing small adjustments took another hour.",
-        link: "https://github.com/ngs90/ngs90.github.io"
-    },
-    {
-        date: "2024-12-13",
-        title: "Article: Databricks free trial learnings",
-        content: "My initial learnings about how to minimize costs using the Databricks free trial on AWS.",
-        link: "https://medium.com/@nicolaj.schmit/databricks-aws-free-trial-learnings-6268d67fca65"
-    },
-    {
-        date: "2024-12-13",
-        title: "Video: First YouTube content up",
-        content: "First YouTube tutorial video is out! 😄 I'm still practicing how to make captivating and educational videos. But have a look at how to get started with Databricks on AWS using their free trials.",
-        link: "https://www.youtube.com/watch?v=k4JZflQ4zYM"
-    }
-];
+import { updates } from '../data/updates';
+const ITEMS_PER_PAGE = 5;
+const latestUpdates = updates.slice(0, ITEMS_PER_PAGE);
 ---
 <section id="updates" class="section-container">
     <h2>Latest Updates</h2>
     <div class="updates-grid">
-        {updates.map(update => (
-            <article class="update-card">
+        {latestUpdates.map(update => (
+            <article class="update-card scroll-reveal">
                 <time>{update.date}</time>
                 <h3>{update.title}</h3>
                 <p>{update.content}</p>
@@ -34,6 +16,9 @@ const updates = [
                 )}
             </article>
         ))}
+    </div>
+    <div class="view-all-container">
+        <a href="/updates" class="view-all-button">View All Updates →</a>
     </div>
 </section>
 
@@ -48,6 +33,17 @@ const updates = [
         padding: 1.5rem;
         border-radius: 8px;
         border: 1px solid rgba(148, 163, 184, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    .update-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .update-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
     }
     time {
         color: var(--text-muted);
@@ -67,4 +63,52 @@ const updates = [
     a:hover {
         color: var(--primary-light);
     }
+    .view-all-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+    .view-all-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: var(--primary);
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .view-all-button:hover {
+        background: var(--primary-light);
+        transform: translateY(-2px);
+    }
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 </style>
+
+<script>
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-reveal').forEach(element => {
+        observer.observe(element);
+    });
+</script>

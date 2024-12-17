@@ -1,0 +1,55 @@
+---
+const education = [
+    {
+        degree: "MSc in Mathematics",
+        institution: "Technical University",
+        period: "2014 - 2016",
+        details: "Focus on Applied Mathematics and Machine Learning"
+    },
+    {
+        degree: "BSc in Economics",
+        institution: "University of Copenhagen",
+        period: "2010 - 2014",
+        details: "Specialization in Quantitative Finance"
+    }
+];
+---
+<section id="education" class="section-container">
+    <h2>Education</h2>
+    <div class="education-grid">
+        {education.map(edu => (
+            <div class="education-card">
+                <h3>{edu.degree}</h3>
+                <h4>{edu.institution}</h4>
+                <span class="period">{edu.period}</span>
+                <p>{edu.details}</p>
+            </div>
+        ))}
+    </div>
+</section>
+
+<style>
+    .education-grid {
+        display: grid;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .education-card {
+        background: var(--bg-light);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    h3 {
+        color: var(--primary-light);
+        margin: 0 0 0.5rem 0;
+    }
+    h4 {
+        color: var(--text);
+        margin: 0 0 0.5rem 0;
+    }
+    .period {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+</style>

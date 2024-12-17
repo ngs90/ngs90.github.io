@@ -1,0 +1,63 @@
+---
+const updates = [
+    {
+        date: "2024-01-15",
+        title: "New Article on MLOps Best Practices",
+        content: "Just published a new article on Medium about implementing MLOps best practices in production environments.",
+        link: "https://medium.com/@nicolaj.schmit"
+    },
+    {
+        date: "2023-12-20",
+        title: "Speaking at AI Conference",
+        content: "Excited to announce that I'll be speaking about ML model deployment strategies at the upcoming AI Conference.",
+        link: null
+    }
+];
+---
+<section id="updates" class="section-container">
+    <h2>Latest Updates</h2>
+    <div class="updates-grid">
+        {updates.map(update => (
+            <article class="update-card">
+                <time>{update.date}</time>
+                <h3>{update.title}</h3>
+                <p>{update.content}</p>
+                {update.link && (
+                    <a href={update.link} target="_blank" rel="noopener noreferrer">Read more →</a>
+                )}
+            </article>
+        ))}
+    </div>
+</section>
+
+<style>
+    .updates-grid {
+        display: grid;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .update-card {
+        background: var(--bg-light);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    time {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+    h3 {
+        color: var(--primary-light);
+        margin: 0.5rem 0;
+    }
+    a {
+        display: inline-block;
+        margin-top: 1rem;
+        color: var(--primary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    a:hover {
+        color: var(--primary-light);
+    }
+</style>

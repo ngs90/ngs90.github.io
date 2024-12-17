@@ -20,7 +20,7 @@ export const updates: Update[] = [
     },
     {
         date: "2024-12-13",
-        title: "Video: First YouTube content up",
+        title: "Video: Get started with Databricks free trial!",
         content: "First YouTube tutorial video is out! 😄 I'm still practicing how to make captivating and educational videos. But have a look at how to get started with Databricks on AWS using their free trials.",
         link: "https://www.youtube.com/watch?v=k4JZflQ4zYM"
     }

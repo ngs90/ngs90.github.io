@@ -9,7 +9,7 @@ export const updates: Update[] = [
     {
         date: "2024-12-17",
         title: "Code: The GitHub static site is up",
-        content: "The base template was created in 10 minutes using https://bolt.new/ including subsites, layout and GitHub deployment pipelines. Adding relevant content and doing small adjustments took another hour.",
+        content: "The base template was created in 10 minutes using https://bolt.new/ including subsites, layout and GitHub deployment pipelines. Adding relevant content and making small adjustments took another hour.",
         link: "https://github.com/ngs90/ngs90.github.io"
     },
     {
